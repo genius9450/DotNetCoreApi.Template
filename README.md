@@ -1,0 +1,2 @@
+# DotNetCoreApi.Template
+
