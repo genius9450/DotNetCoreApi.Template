@@ -20,6 +20,7 @@ namespace DotNetCoreApi.Template.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // sample
             //modelBuilder
             //    .Entity<SystemSetting>()
             //    .AddIndex(x => x.SourceID)

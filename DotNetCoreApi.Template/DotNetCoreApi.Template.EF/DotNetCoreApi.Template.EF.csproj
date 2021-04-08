@@ -3,27 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20200701084621_init.cs" />
-    <Compile Remove="Migrations\20200701084621_init.Designer.cs" />
-    <Compile Remove="Migrations\20200701093000_init1.cs" />
-    <Compile Remove="Migrations\20200701093000_init1.Designer.cs" />
-    <Compile Remove="Migrations\20200707012008_init2.cs" />
-    <Compile Remove="Migrations\20200707012008_init2.Designer.cs" />
-    <Compile Remove="Migrations\20200903020420_init3.cs" />
-    <Compile Remove="Migrations\20200903020420_init3.Designer.cs" />
-    <Compile Remove="Migrations\20201225030850_Add SP_ScheduleMoveHistoryRecord.cs" />
-    <Compile Remove="Migrations\20201225030850_Add SP_ScheduleMoveHistoryRecord.Designer.cs" />
-    <Compile Remove="Migrations\20201225031022_Update SystemSetting.cs" />
-    <Compile Remove="Migrations\20201225031022_Update SystemSetting.Designer.cs" />
-    <Compile Remove="Migrations\20201225031145_Update SystemSetting.cs" />
-    <Compile Remove="Migrations\20201225031145_Update SystemSetting.Designer.cs" />
-    <Compile Remove="Migrations\20201225031335_Add SP_ScheduleMoveHistoryRecord.cs" />
-    <Compile Remove="Migrations\20201225031335_Add SP_ScheduleMoveHistoryRecord.Designer.cs" />
-    <Compile Remove="Migrations\PaymentServiceJPDBContextModelSnapshot.cs" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.5" />
