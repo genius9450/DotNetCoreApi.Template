@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>1</WarningLevel>
+  </PropertyGroup>
+
+  <!--不重複產生Web.config-->
+  <PropertyGroup>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    <UserSecretsId>2e4854d7-86a0-44a5-ae7b-21225c65cc72</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.22" />
+    <PackageReference Include="HangFire.Core" Version="1.7.22" />
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.7.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetCoreApi.Template.Api\DotNetCoreApi.Template.Api.csproj" />
+    <ProjectReference Include="..\DotNetCoreApi.Template.Domain\DotNetCoreApi.Template.Domain.csproj" />
+    <ProjectReference Include="..\DotNetCoreApi.Template.EF\DotNetCoreApi.Template.EF.csproj" />
+    <ProjectReference Include="..\DotNetCoreApi.Template.Service\DotNetCoreApi.Template.Service.csproj" />
+  </ItemGroup>   
+
+</Project>

@@ -2,9 +2,15 @@
 1. TargetFramework : netcoreapp3.1
 2. ORM : EntityFrameworkCore
 3. Ioc/DI : Autofac
-4. Mapper : AutoMapper
+    *    NuGet Package : Autofac、Autofac.Extensions.DependencyInjection、Autofac.Extras.DynamicProxy
+    *    Program.cs : `.UseServiceProviderFactory(new AutofacServiceProviderFactory());`
+    *    Startup.cs : `ConfigureContainer()`
+4. Mapper : AutoMapper    
 5. Open Api : Swashbuckle.AspNetCore
 6. Logger : Seq
+7. Schedule: Hangfire
+    *    NuGet Package : Hangfire.AspNetCore、Hangfire.Core
+    *    Startup.cs : `AddHangfire` `AddHangfireServer` `UseHangfireDashboard`
 
 # 專案rename
 1. 編輯 rename.ps1
