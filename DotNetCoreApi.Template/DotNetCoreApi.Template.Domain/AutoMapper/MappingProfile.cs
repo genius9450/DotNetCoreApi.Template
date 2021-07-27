@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace DotNetCoreApi.Template.Api.AutoMapper
+namespace DotNetCoreApi.Template.Domain.AutoMapper
 {
     public class MappingProfile : Profile
     {

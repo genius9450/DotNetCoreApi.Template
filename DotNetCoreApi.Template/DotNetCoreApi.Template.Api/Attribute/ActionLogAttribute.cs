@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -12,10 +13,13 @@ namespace DotNetCoreApi.Template.Api.Attribute
         private ILogger<ActionLogAttribute> logger;
         private ApiLogModel apiLogModel { get; set; }
 
+        private Stopwatch stopWatch { get; set; }
+
         public ActionLogAttribute(ILogger<ActionLogAttribute> _logger)
         {
             logger = _logger;
             apiLogModel = new ApiLogModel();
+            stopWatch = new Stopwatch();
         }
 
         /// <summary>
@@ -23,6 +27,7 @@ namespace DotNetCoreApi.Template.Api.Attribute
         /// </summary>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            stopWatch.Start();
             apiLogModel.HttpMethod = context.HttpContext.Request.Method;
             apiLogModel.ClientIP = context.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
             apiLogModel.FullPath = $"{context.HttpContext.Request.Host}{context.HttpContext.Request.Path.Value}";
@@ -40,9 +45,20 @@ namespace DotNetCoreApi.Template.Api.Attribute
         /// <returns></returns>
         public override async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            var Data = context.Result;
-            apiLogModel.Response = Data == null ? "" : JsonConvert.SerializeObject(((ObjectResult)context.Result).Value);
-            logger.LogInformation("{HttpMethod} / {FullPath} / {Request} / {Response} / {ClientIP}", apiLogModel.HttpMethod, apiLogModel.FullPath, apiLogModel.Request, apiLogModel.Response, apiLogModel.ClientIP);
+            string responseString;
+            if (context.Result == null) responseString = "";
+            else if (context.Result.GetType().Name == "ObjectResult")
+            {
+                responseString = JsonConvert.SerializeObject(((ObjectResult)context.Result).Value);
+            }
+            else
+            {
+                responseString = JsonConvert.SerializeObject(context.Result);
+            }
+            apiLogModel.Response = responseString.Length >= 1000 ? $"{responseString.Substring(0, 1000)} ...etc" : responseString;
+
+            stopWatch.Stop();
+            logger.LogInformation("{HttpMethod} / {FullPath} / {Request} / {Response} / {ClientIP} / {SpendSeconds}", apiLogModel.HttpMethod, apiLogModel.FullPath, apiLogModel.Request, apiLogModel.Response, apiLogModel.ClientIP, stopWatch.Elapsed.TotalSeconds);
 
             await base.OnResultExecutionAsync(context, next);
         }
