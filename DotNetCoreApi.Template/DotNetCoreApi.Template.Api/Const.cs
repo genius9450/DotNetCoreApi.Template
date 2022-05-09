@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DotNetCoreApi.Template.Api
 {
-    public static class Const
+    public static class Const 
     {
         /// <summary>
         /// 環境名稱
