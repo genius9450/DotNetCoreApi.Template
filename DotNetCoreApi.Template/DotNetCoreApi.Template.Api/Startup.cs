@@ -13,6 +13,11 @@ using DotNetCoreApi.Template.Api;
 using DotNetCoreApi.Template.Domain.Shared;
 using Microsoft.Extensions.Logging;
 using DotNetCoreApi.Template.EF;
+using DotNetCoreApi.Template.Schedule;
+using DotNetCoreApi.Template.Schedule.Interface;
+using Hangfire;
+using Hangfire.Dashboard;
+using Hangfire.MemoryStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -94,6 +99,14 @@ namespace DotNetCoreApi.Template.Api
                 c.SwaggerDoc("v1", new OpenApiInfo() { Title = "DotNetCoreApi.Template", Version = "v1" });
             });
 
+            // 註冊Hangfire排程
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_110)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseDefaultTypeSerializer()
+                    .UseMemoryStorage());
+            services.AddHangfireServer();
+
             services.AddHttpClient();
 
         }
@@ -140,6 +153,13 @@ namespace DotNetCoreApi.Template.Api
 
             app.UseMiddleware<ExceptionMiddleware>(); // 捕捉全域Exception
 
+            // 非localhost address可以開啟hangfire dashboard，但僅能檢視
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new ScheduleAuthorizationFilter() },
+                IsReadOnlyFunc = (DashboardContext context) => context.Request.RemoteIpAddress != context.Request.LocalIpAddress
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapControllers();
@@ -150,6 +170,10 @@ namespace DotNetCoreApi.Template.Api
             });
 
             Const.Logger = logger;
+
+            // 開始執行排程
+            BackgroundJob.Enqueue<IScheduleService>(x => x.Start());
+
         }
     }
 }

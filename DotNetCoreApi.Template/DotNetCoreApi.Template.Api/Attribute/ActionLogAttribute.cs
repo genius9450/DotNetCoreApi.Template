@@ -34,6 +34,9 @@ namespace DotNetCoreApi.Template.Api.Attribute
 
             var Data = context.ActionArguments;
             apiLogModel.Request = Data == null ? "" : JsonConvert.SerializeObject(Data);
+
+            logger.LogInformation("ActionExecuting / {HttpMethod} / {FullPath} / {Request} / {ClientIP} ", apiLogModel.HttpMethod, apiLogModel.FullPath, apiLogModel.Request, apiLogModel.ClientIP);
+
             base.OnActionExecuting(context);
         }
 
@@ -58,7 +61,7 @@ namespace DotNetCoreApi.Template.Api.Attribute
             apiLogModel.Response = responseString.Length >= 1000 ? $"{responseString.Substring(0, 1000)} ...etc" : responseString;
 
             stopWatch.Stop();
-            logger.LogInformation("{HttpMethod} / {FullPath} / {Request} / {Response} / {ClientIP} / {SpendSeconds}", apiLogModel.HttpMethod, apiLogModel.FullPath, apiLogModel.Request, apiLogModel.Response, apiLogModel.ClientIP, stopWatch.Elapsed.TotalSeconds);
+            logger.LogInformation("Execution / {HttpMethod} / {FullPath} / {Request} / {Response} / {ClientIP} / {SpendSeconds}", apiLogModel.HttpMethod, apiLogModel.FullPath, apiLogModel.Request, apiLogModel.Response, apiLogModel.ClientIP, stopWatch.Elapsed.TotalSeconds);
 
             await base.OnResultExecutionAsync(context, next);
         }

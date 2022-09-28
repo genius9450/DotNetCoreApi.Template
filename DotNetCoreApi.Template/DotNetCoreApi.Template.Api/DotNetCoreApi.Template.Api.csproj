@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DotNetCoreApi.Template.Domain\DotNetCoreApi.Template.Domain.csproj" />
     <ProjectReference Include="..\DotNetCoreApi.Template.EF\DotNetCoreApi.Template.EF.csproj" />
+    <ProjectReference Include="..\DotNetCoreApi.Template.Schedule\DotNetCoreApi.Template.Schedule.csproj" />
     <ProjectReference Include="..\DotNetCoreApi.Template.Service\DotNetCoreApi.Template.Service.csproj" />
   </ItemGroup>
 
